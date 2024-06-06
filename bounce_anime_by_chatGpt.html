@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bouncing Ball Animation</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    #parent {
+      position: relative;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background-color: lightblue;
+      overflow: hidden;
+    }
+
+    #child {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background-color: red;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="parent">
+    <div id="child"></div>
+  </div>
+  <script>
+    const parent = document.getElementById('parent');
+    const child = document.getElementById('child');
+
+    let parentSize = 600;
+    let childSize = 50;
+    let x = 0;
+    let y = 0;
+    let dx = 5; // Increased speed
+    let dy = 5; // Increased speed
+    const sizeChangeRate = 1; // Slower size change
+
+    function animate() {
+      // Update position
+      x += dx;
+      y += dy;
+
+      // Check for collision with edges
+      if (x <= 0 || x + childSize >= parentSize) {
+        dx = -dx;
+        adjustSizes();
+      }
+      if (y <= 0 || y + childSize >= parentSize) {
+        dy = -dy;
+        adjustSizes();
+      }
+
+      // Apply new positions
+      child.style.left = x + 'px';
+      child.style.top = y + 'px';
+
+      // Stop the animation when both sizes are equal
+      if (parentSize > childSize) {
+        requestAnimationFrame(animate);
+      }
+    }
+
+    function adjustSizes() {
+      if (parentSize > childSize) {
+        parentSize -= sizeChangeRate;
+        childSize += sizeChangeRate;
+
+        parent.style.width = parentSize + 'px';
+        parent.style.height = parentSize + 'px';
+
+        child.style.width = childSize + 'px';
+        child.style.height = childSize + 'px';
+      }
+    }
+
+    // Start the animation
+    animate();
+  </script>
+</body>
+
+</html>
